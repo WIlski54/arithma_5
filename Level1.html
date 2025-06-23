@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Level 1 - Der Eingang zum Labyrinth</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Crimson Text', serif;
+      background: linear-gradient(135deg, #0f1419 0%, #1a2332 25%, #2d1810 50%, #1a2332 75%, #0f1419 100%);
+      min-height: 100vh;
+      color: #d4af37;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    
+    .level-header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px 0;
+    }
+    
+    .level-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2.5em;
+      font-weight: 700;
+      color: #d4af37;
+      text-shadow: 
+        0 0 15px #d4af37,
+        0 0 30px #d4af37,
+        0 0 45px rgba(212, 175, 55, 0.5);
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+    }
+    
+    .level-subtitle {
+      font-size: 1.3em;
+      color: #ffd700;
+      font-style: italic;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    }
+    
+    .image-section {
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .mystical-frame {
+      position: relative;
+      display: inline-block;
+      padding: 20px;
+      background: linear-gradient(145deg, #8b4513 0%, #daa520 50%, #8b4513 100%);
+      border-radius: 25px;
+      box-shadow: 
+        0 0 30px rgba(212, 175, 55, 0.6),
+        inset 0 0 20px rgba(0, 0, 0, 0.3);
+      border: 4px solid #ffd700;
+    }
+    
+    .level-image {
+      width: 100%;
+      max-width: 500px;
+      height: 350px;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 2px solid rgba(255, 215, 0, 0.3);
+    }
+    
+    .adventure-start {
+      text-align: center;
+      margin: 40px 0;
+    }
+    
+    .adventure-btn {
+      background: linear-gradient(45deg, #8b0000 0%, #dc143c 50%, #8b0000 100%);
+      color: #fff;
+      border: 4px solid #d4af37;
+      padding: 25px 50px;
+      border-radius: 20px;
+      font-size: 1.5em;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      box-shadow: 
+        0 10px 30px rgba(220, 20, 60, 0.5),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3);
+      text-shadow: 0 3px 6px rgba(0, 0, 0, 0.7);
+    }
+    
+    .adventure-btn:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 
+        0 20px 50px rgba(220, 20, 60, 0.8),
+        inset 0 3px 0 rgba(255, 255, 255, 0.5);
+    }
+    
+    .content-section {
+      background: linear-gradient(145deg, rgba(44, 24, 16, 0.95) 0%, rgba(61, 40, 23, 0.95) 50%, rgba(44, 24, 16, 0.95) 100%);
+      border: 3px solid #d4af37;
+      border-radius: 25px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.8),
+        inset 0 0 30px rgba(212, 175, 55, 0.1);
+      display: none;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 1s ease;
+    }
+    
+    .content-section.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .story-title {
+      font-family: 'Cinzel', serif;
+      color: #ffd700;
+      font-size: 1.4em;
+      margin-bottom: 15px;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+    
+    .story-text {
+      font-size: 1.1em;
+      line-height: 1.6;
+      text-align: center;
+      color: #f5e6a3;
+      margin-bottom: 30px;
+    }
+    
+    .math-problem {
+      background: rgba(0, 0, 0, 0.7);
+      border: 3px solid #8b4513;
+      border-radius: 20px;
+      padding: 25px;
+      margin: 20px 0;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1.5s ease;
+    }
+    
+    .math-problem.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .problem-text {
+      font-family: 'Cinzel', serif;
+      font-size: 2em;
+      color: #ffd700;
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+      margin-bottom: 25px;
+    }
+    
+    .answer-input {
+      padding: 15px 25px;
+      font-size: 1.5em;
+      border: 3px solid #8b4513;
+      border-radius: 12px;
+      background: rgba(244, 230, 180, 0.95);
+      color: #2c1810;
+      font-family: 'Crimson Text', serif;
+      text-align: center;
+      width: 200px;
+      margin: 10px;
+    }
+    
+    .submit-btn {
+      background: linear-gradient(45deg, #8b0000 0%, #dc143c 50%, #8b0000 100%);
+      color: #fff;
+      border: 3px solid #d4af37;
+      padding: 18px 35px;
+      border-radius: 18px;
+      font-size: 1.3em;
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 10px;
+    }
+    
+    .submit-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+    }
+    
+    .message {
+      margin-top: 25px;
+      padding: 20px 30px;
+      border-radius: 15px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.1em;
+      display: none;
+    }
+    
+    .success {
+      background: linear-gradient(145deg, #228b22 0%, #32cd32 100%);
+      border: 2px solid #90ee90;
+      color: #fff;
+    }
+    
+    .error {
+      background: linear-gradient(145deg, #8b0000 0%, #dc143c 100%);
+      border: 2px solid #ff6b6b;
+      color: #fff;
+    }
+    
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 30px;
+      padding: 0 20px;
+    }
+    
+    .nav-btn {
+      background: linear-gradient(45deg, #4b0082 0%, #9400d3 50%, #4b0082 100%);
+      color: #fff;
+      text-decoration: none;
+      padding: 15px 30px;
+      border-radius: 15px;
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 2px solid #d4af37;
+    }
+    
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="level-header">
+      <h1 class="level-title">⚡ LEVEL I ⚡</h1>
+      <p class="level-subtitle">Das Bronzetor der Akademie</p>
+    </div>
+    
+    <div class="image-section">
+      <div class="mystical-frame">
+        <img src="Level1.png" alt="Das Bronzetor" class="level-image" id="levelImage">
+      </div>
+    </div>
+    
+    <div class="adventure-start" id="adventureStart">
+      <button class="adventure-btn" id="startBtn">
+        ⚔️ Mutige Helden, wollt ihr das Abenteuer beginnen? ⚔️
+      </button>
+    </div>
+    
+    <div class="content-section" id="storySection">
+      <h3 class="story-title">⚜ Die Geschichte beginnt ⚜</h3>
+      <div class="story-text">
+        Ihr steht am schweren Bronzetor der Akademie von Arithma. Ein steinerner Wächter erwacht zum Leben und spricht: 
+        <br><br>
+        <strong>"Nur wer beweist, dass er die Bruchrechnung versteht, darf eintreten. Löse die erste Aufgabe!"</strong>
+        <br><br>
+        Der steinerne Wächter zeigt auf eine magische Inschrift, die am Tor erscheint...
+      </div>
+      
+      <div class="math-problem" id="mathProblem">
+        <div class="problem-text">2/5 + 1/2 = ?</div>
+        <input type="text" class="answer-input" id="answer" placeholder="Deine Antwort...">
+        <br>
+        <button class="submit-btn" id="submitBtn">🔮 Zauberspruch wirken</button>
+        <div class="message" id="message"></div>
+      </div>
+    </div>
+    
+    <div class="navigation">
+      <a href="index.html" class="nav-btn">🏠 Zurück zum Start</a>
+      <a href="Level2.html" class="nav-btn" id="nextBtn" style="display: none;">🪞 Nächstes Level</a>
+    </div>
+  </div>
+
+  <audio id="backgroundMusic" loop>
+    <source src="level1_music.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="narrationAudio">
+    <source src="level1_Text.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="doorOpenSound" preload="auto">
+    <source src="open.m4a" type="audio/mp4">
+  </audio>
+
+  <script>
+    // Variablen
+    let gameStarted = false;
+    
+    // Initialisierung
+    document.addEventListener('DOMContentLoaded', function() {
+      // Button-Event
+      const startBtn = document.getElementById('startBtn');
+      if (startBtn) {
+        startBtn.onclick = function() {
+          startGame();
+        };
+      }
+      
+      // Submit-Button
+      const submitBtn = document.getElementById('submitBtn');
+      if (submitBtn) {
+        submitBtn.onclick = checkAnswer;
+      }
+      
+      // Enter-Taste
+      const answerInput = document.getElementById('answer');
+      if (answerInput) {
+        answerInput.onkeypress = function(e) {
+          if (e.key === 'Enter') {
+            checkAnswer();
+          }
+        };
+      }
+    });
+
+    function startGame() {
+      if (gameStarted) return;
+      
+      gameStarted = true;
+      
+      // Button ausblenden
+      const adventureStart = document.getElementById('adventureStart');
+      const storySection = document.getElementById('storySection');
+      
+      if (adventureStart && storySection) {
+        // Button ausblenden
+        adventureStart.style.opacity = '0';
+        adventureStart.style.transform = 'scale(0.8)';
+        
+        setTimeout(() => {
+          adventureStart.style.display = 'none';
+          
+          // Story einblenden
+          storySection.style.display = 'block';
+          setTimeout(() => {
+            storySection.classList.add('show');
+            startAudio();
+          }, 100);
+        }, 500);
+      }
+    }
+
+    function startAudio() {
+      const bgMusic = document.getElementById('backgroundMusic');
+      const narration = document.getElementById('narrationAudio');
+      
+      if (bgMusic) {
+        bgMusic.volume = 0.1; // Sehr leise Hintergrundmusik
+        bgMusic.play().then(() => {
+          // Narration nach 5 Sekunden
+          setTimeout(() => {
+            if (narration) {
+              narration.volume = 0.8;
+              
+              // Event-Listener für das Ende der Narration
+              narration.addEventListener('ended', function() {
+                showMathProblem();
+              });
+              
+              narration.play().catch(e => {
+                console.log('Narration konnte nicht abgespielt werden');
+                // Falls Audio fehlschlägt, zeige Aufgabe nach 10 Sekunden
+                setTimeout(showMathProblem, 10000);
+              });
+            } else {
+              // Falls keine Narration vorhanden, zeige Aufgabe nach 10 Sekunden
+              setTimeout(showMathProblem, 10000);
+            }
+          }, 5000);
+          
+        }).catch(e => {
+          console.log('Musik konnte nicht abgespielt werden');
+          // Falls Audio fehlschlägt, zeige Aufgabe nach 15 Sekunden
+          setTimeout(showMathProblem, 15000);
+        });
+      } else {
+        // Falls kein Audio vorhanden, zeige Aufgabe nach 15 Sekunden
+        setTimeout(showMathProblem, 15000);
+      }
+    }
+
+    function showMathProblem() {
+      const mathProblem = document.getElementById('mathProblem');
+      if (mathProblem) {
+        mathProblem.classList.add('show');
+      }
+    }
+
+    function checkAnswer() {
+      const input = document.getElementById('answer');
+      const message = document.getElementById('message');
+      const nextBtn = document.getElementById('nextBtn');
+      
+      if (!input || !message) return;
+      
+      const answer = input.value.trim();
+      
+      if (answer === '9/10' || answer === '18/20') {
+        // Spiele Tür-Öffnungs-Sound ab
+        playDoorOpenSound();
+        
+        message.textContent = "🎉 Der steinerne Wächter nickt zufrieden. Mit einem leisen Grollen öffnet sich das Tor. Ihr betretet die erste Halle der Akademie. Ein Hauch von Magie liegt in der Luft – ihr seid bereit für die nächste Prüfung!";
+        message.className = "message success";
+        message.style.display = "block";
+        nextBtn.style.display = "inline-block";
+        
+        try {
+          localStorage.setItem('level1_completed', 'true');
+        } catch(e) {
+          // Ignoriere localStorage-Fehler
+        }
+      } else {
+        message.textContent = "❌ Der Wächter bleibt regungslos. 'Das ist leider nicht korrekt. Willst du einen Tipp? Oder möchtest du es noch einmal versuchen?' Tipp: Erweitere beide Brüche so, dass sie denselben Nenner haben. Dann kannst du sie addieren.";
+        message.className = "message error";
+        message.style.display = "block";
+      }
+    }
+
+    function playDoorOpenSound() {
+      const doorSound = document.getElementById('doorOpenSound');
+      if (doorSound) {
+        doorSound.volume = 0.7; // Gut hörbar aber nicht zu laut
+        doorSound.currentTime = 0; // Von Anfang an abspielen
+        doorSound.play().catch(e => {
+          console.log('Tür-Sound konnte nicht abgespielt werden');
+        });
+      }
+    }
+  </script>
+</body>
+</html>
